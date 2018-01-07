@@ -1,2 +1,1 @@
-# agmq2
-wat
+# gmq2
