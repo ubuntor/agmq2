@@ -2,7 +2,7 @@ local levels = {}
 
 function levels.init()
     local tileSymbols = [[
-bry
+bryI
 #op
 ]]
 
