@@ -36,7 +36,7 @@ function levels.loadLevel(name)
         for char in line:gmatch(".") do
             if char == "p" then
                 id = level.tileBatch:add(levels.tileQuads[char], x*32+16, y*32+16, 0, 1, 1, 16, 16)
-                level.player = {id, levels.tileQuads[char], x, y}
+                level.player = {id, levels.tileQuads[char], x, y, 0}
             elseif char ~= " " then
                 level.tileBatch:add(levels.tileQuads[char], x*32+16, y*32+16, 0, 1, 1, 16, 16)
             end
