@@ -4,6 +4,7 @@ function levels.init()
     local tileSymbols = [[
 bryI<=
 #op
+EQ
 ]]
 
     local tileImage = love.graphics.newImage("tiles.png")
