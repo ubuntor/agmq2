@@ -5,13 +5,13 @@ function levels.init()
 bryI<=
 #op
 EQ
+*X
 ]]
 
     local tileImage = love.graphics.newImage("tiles.png")
 
     levels.tileQuads = {}
 
-    -- oh no, how to enumerate over lines in lua :(
     local y = 0
     for line in tileSymbols:gmatch("[^\r\n]+") do
         local x = 0
@@ -28,7 +28,7 @@ end
 function levels.loadLevel(name)
     local level = {}
     levels.tileBatch:clear()
-    level.tileBatch = levels.tileBatch -- ??? hope gc is good
+    level.tileBatch = levels.tileBatch --- hmm
 
     local levelString = love.filesystem.read("levels/"..name)
     local y = 0
