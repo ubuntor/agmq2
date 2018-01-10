@@ -4,7 +4,7 @@ function levels.init()
     local tileSymbols = [[
 BRYI<=T
 #OP
-EQ
+EQW
 *X
 ]]
 
@@ -35,9 +35,16 @@ function levels.loadLevel(name)
     for line in levelString:gmatch("[^\r\n]+") do
         local x = 0
         for char in line:gmatch(".") do
+            -- blargh
             if char == "P" then
                 id = level.tileBatch:add(levels.tileQuads[char], x*32+16, y*32+16, 0, 1, 1, 16, 16)
                 level.player = {id, levels.tileQuads[char], x, y, 0}
+            elseif char == "D" then
+                id = level.tileBatch:add(levels.tileQuads["W"], x*32+16, y*32+16, math.rad(90), 1, 1, 16, 16)
+            elseif char == "S" then
+                id = level.tileBatch:add(levels.tileQuads["W"], x*32+16, y*32+16, math.rad(180), 1, 1, 16, 16)
+            elseif char == "A" then
+                id = level.tileBatch:add(levels.tileQuads["W"], x*32+16, y*32+16, math.rad(270), 1, 1, 16, 16)
             elseif char ~= " " then
                 level.tileBatch:add(levels.tileQuads[char], x*32+16, y*32+16, 0, 1, 1, 16, 16)
             end
