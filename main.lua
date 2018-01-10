@@ -4,7 +4,7 @@ local currentLevel
 
 function love.load()
     love.keyboard.setKeyRepeat(true)
-    love.graphics.setBackgroundColor(200, 200, 200)
+    love.graphics.setBackgroundColor(120, 120, 120)
     levels.init()
     currentLevel = levels.loadLevel("level01")
 end

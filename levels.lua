@@ -29,24 +29,36 @@ function levels.loadLevel(name)
     local level = {}
     levels.tileBatch:clear()
     level.tileBatch = levels.tileBatch --- hmm
+    level.map = {}
 
     local levelString = love.filesystem.read("levels/"..name)
     local y = 0
     for line in levelString:gmatch("[^\r\n]+") do
         local x = 0
         for char in line:gmatch(".") do
-            -- blargh
-            if char == "P" then
-                id = level.tileBatch:add(levels.tileQuads[char], x*32+16, y*32+16, 0, 1, 1, 16, 16)
-                level.player = {id, levels.tileQuads[char], x, y, 0}
-            elseif char == "D" then
-                id = level.tileBatch:add(levels.tileQuads["W"], x*32+16, y*32+16, math.rad(90), 1, 1, 16, 16)
-            elseif char == "S" then
-                id = level.tileBatch:add(levels.tileQuads["W"], x*32+16, y*32+16, math.rad(180), 1, 1, 16, 16)
-            elseif char == "A" then
-                id = level.tileBatch:add(levels.tileQuads["W"], x*32+16, y*32+16, math.rad(270), 1, 1, 16, 16)
-            elseif char ~= " " then
-                level.tileBatch:add(levels.tileQuads[char], x*32+16, y*32+16, 0, 1, 1, 16, 16)
+            if char ~= " " then
+                local id, quad, rot = 0
+                -- blargh
+                if char == "P" then
+                    quad = levels.tileQuads[char]
+                    rot = 0
+                    level.player = {x=x, y=y}
+                elseif char == "D" then
+                    quad = levels.tileQuads["W"]
+                    rot = 1
+                elseif char == "S" then
+                    quad = levels.tileQuads["W"]
+                    rot = 2
+                elseif char == "A" then
+                    quad = levels.tileQuads["W"]
+                    rot = 3
+                else
+                    quad = levels.tileQuads[char]
+                    rot = 0
+                end
+                id = level.tileBatch:add(quad, x*32+16, y*32+16, math.rad(90*rot), 1, 1, 16, 16)
+                -- hmmmmmmmm
+                level.map[x.." "..y] = {id=id, quad=quad, rot=rot, char=char}
             end
             x = x+1
         end
