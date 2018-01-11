@@ -1,0 +1,15 @@
+IW    #    LD
+     #P#
+    #   #
+   #     #
+  #       #
+ #push*    #
+#push*blocks#
+ #  *blocks#
+  #       #
+   #     #
+    #   #
+     #X#
+JA    #    KS
+
+  r to reset

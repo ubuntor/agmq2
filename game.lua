@@ -27,6 +27,12 @@ local function backward(x, y, rot)
 end
 
 function game.keypressed(key, level)
+    if key == "w" then
+        return true -- debug win
+    end
+    if key == "r" then
+        return false -- reset
+    end
     local playerindex = level.player.x.." "..level.player.y -- hmmmmmmmm
     local playerinfo = level.map[playerindex]
     local newx = level.player.x

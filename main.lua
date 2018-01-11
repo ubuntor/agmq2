@@ -1,7 +1,7 @@
 local levels = require 'levels'
 local game = require 'game'
 local currentLevel
-local levelList = {"level01"}
+local levelList = {"level01", "level02", "level03", "level04"}
 local levelIndex = 1
 
 function love.load()
@@ -17,11 +17,14 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    if game.keypressed(key, currentLevel) ~= nil then
+    local newLevel = game.keypressed(key, currentLevel)
+    if newLevel == true then
         levelIndex = levelIndex+1
         if levelIndex > #levelList then
             levelIndex = 1
         end
+        currentLevel = levels.loadLevel(levelList[levelIndex])
+    elseif newLevel == false then
         currentLevel = levels.loadLevel(levelList[levelIndex])
     end
 end

@@ -1,5 +1,11 @@
 local levels = {}
 
+-- https://stackoverflow.com/questions/19326368/iterate-over-lines-including-blank-lines
+local function magiclines(s)
+        if s:sub(-1)~="\n" then s=s.."\n" end
+        return s:gmatch("(.-)\n")
+end
+
 function levels.init()
     local tileSymbols = [[
 BRYF<=T
@@ -37,7 +43,7 @@ function levels.loadLevel(name)
 
     local levelString = love.filesystem.read("levels/"..name)
     local y = 0
-    for line in levelString:gmatch("[^\r\n]+") do
+    for line in magiclines(levelString) do
         local x = 0
         for char in line:gmatch(".") do
             if char ~= " " then
