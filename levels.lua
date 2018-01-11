@@ -28,8 +28,9 @@ end
 function levels.loadLevel(name)
     local level = {}
     levels.tileBatch:clear()
-    level.tileBatch = levels.tileBatch --- hmm
+    level.tileBatch = levels.tileBatch -- hmm
     level.map = {}
+    level.textblocks = {}
 
     local levelString = love.filesystem.read("levels/"..name)
     local y = 0
@@ -37,7 +38,8 @@ function levels.loadLevel(name)
         local x = 0
         for char in line:gmatch(".") do
             if char ~= " " then
-                local id, quad, rot = 0
+                local id, quad, text
+                local rot = 0
                 -- blargh
                 if char == "P" then
                     quad = levels.tileQuads[char]
@@ -52,12 +54,13 @@ function levels.loadLevel(name)
                 elseif char == "A" then
                     quad = levels.tileQuads["W"]
                     rot = 3
+                elseif char:match("[a-z]") then
+                    level.textblocks[x.." "..y] = {text=char, x=x, y=y} -- hmmmmmmmm?
+                    quad = levels.tileQuads["R"]
                 else
                     quad = levels.tileQuads[char]
-                    rot = 0
                 end
                 id = level.tileBatch:add(quad, x*32+16, y*32+16, math.rad(90*rot), 1, 1, 16, 16)
-                -- hmmmmmmmm
                 level.map[x.." "..y] = {id=id, quad=quad, rot=rot, char=char}
             end
             x = x+1
@@ -70,6 +73,10 @@ end
 
 function levels.drawLevel(level)
     love.graphics.draw(level.tileBatch)
+    for k,v in pairs(level.textblocks) do
+        local rot = level.map[k].rot
+        love.graphics.printf({{34, 32, 52}, v.text}, v.x*32+16, v.y*32+16, 32, 'center', math.rad(90*rot), 1, 1, 16, 24) -- eh, good enough
+    end
 end
 
 return levels
