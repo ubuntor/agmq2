@@ -2,10 +2,10 @@ local levels = {}
 
 function levels.init()
     local tileSymbols = [[
-BRYI<=T
-#OP
+BRYF<=T
+#OPI
 EQW
-*X
+*XL
 ]]
 
     local tileImage = love.graphics.newImage("tiles.png")
@@ -28,9 +28,12 @@ end
 function levels.loadLevel(name)
     local level = {}
     levels.tileBatch:clear()
-    level.tileBatch = levels.tileBatch -- hmm
+    level.tileQuads = levels.tileQuads -- hmm this structuring is questionable...
+    level.tileBatch = levels.tileBatch
     level.map = {}
     level.textblocks = {}
+    level.stars = 0
+    level.exit = {}
 
     local levelString = love.filesystem.read("levels/"..name)
     local y = 0
@@ -54,9 +57,24 @@ function levels.loadLevel(name)
                 elseif char == "A" then
                     quad = levels.tileQuads["W"]
                     rot = 3
+                elseif char == "L" then
+                    quad = levels.tileQuads["I"]
+                    rot = 1
+                elseif char == "K" then
+                    quad = levels.tileQuads["I"]
+                    rot = 2
+                elseif char == "J" then
+                    quad = levels.tileQuads["I"]
+                    rot = 3
+                elseif char == "*" then
+                    quad = levels.tileQuads[char]
+                    level.stars = level.stars+1
+                elseif char == "X" then
+                    quad = levels.tileQuads["L"]
+                    level.exit = {x=x, y=y}
                 elseif char:match("[a-z]") then
                     level.textblocks[x.." "..y] = {text=char, x=x, y=y} -- hmmmmmmmm?
-                    quad = levels.tileQuads["R"]
+                    quad = levels.tileQuads["B"]
                 else
                     quad = levels.tileQuads[char]
                 end
@@ -75,7 +93,7 @@ function levels.drawLevel(level)
     love.graphics.draw(level.tileBatch)
     for k,v in pairs(level.textblocks) do
         local rot = level.map[k].rot
-        love.graphics.printf({{34, 32, 52}, v.text}, v.x*32+16, v.y*32+16, 32, 'center', math.rad(90*rot), 1, 1, 16, 24) -- eh, good enough
+        love.graphics.printf({{34, 32, 52}, v.text}, v.x*32+16, v.y*32+16, 32, 'center', math.rad(90*rot), 1, 1, 14, 24) -- eh, good enough
     end
 end
 
